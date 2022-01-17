@@ -1,6 +1,6 @@
 // Import stylesheets
 import './style.css';
-import { from } from 'linq-to-typescript';
+import { from,  } from 'linq-to-typescript';
 
 // Write TypeScript code!
 const appDiv: HTMLElement = document.getElementById('app');
@@ -24,3 +24,29 @@ let list1: KV[] = [
   { key: 2, value: 'c' },
   { key: 3, value: 'd' },
 ];
+
+let list2: KV[] = [
+  { key: 0, value: 'aa' },
+  { key: 1, value: 'bb' },
+  { key: 3, value: 'dd' },
+];
+
+let retval = from(list1)
+  .where((l1) => from(list2).any((l2) => l2.key == l1.key))
+  .toArray();
+
+console.log(retval);
+
+let retval2 = asEnumerable(list1)
+  .joinByKey(
+    from(list2),
+    (x) => x.key,
+    (x) => x.key,
+    (x, y) => ({ x, y })
+  )
+  .toArray();
+
+console.log(retval2);
+
+let wrapped = from(list1).first();
+console.log(wrapped);
