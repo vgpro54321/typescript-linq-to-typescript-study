@@ -1,6 +1,6 @@
 // Import stylesheets
 import './style.css';
-import { from,  } from 'linq-to-typescript';
+import { from } from 'linq-to-typescript';
 
 // Write TypeScript code!
 const appDiv: HTMLElement = document.getElementById('app');
@@ -37,7 +37,7 @@ let retval = from(list1)
 
 console.log(retval);
 
-let retval2 = asEnumerable(list1)
+let retval2 = from(list1)
   .joinByKey(
     from(list2),
     (x) => x.key,
