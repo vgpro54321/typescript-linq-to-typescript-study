@@ -50,3 +50,20 @@ console.log(retval2);
 
 let wrapped = from(list1).first();
 console.log(wrapped);
+
+let e = from([1, 2, 3]);
+//from(list1);
+console.log(e);
+
+for (let i of e) {
+  console.log(i);
+}
+
+
+let g = from([1, 2, 3, 1, 2, 3, 5])
+  .groupBy(x => x);
+
+for (let i of g) {
+  console.log(i, i.key);
+
+}
