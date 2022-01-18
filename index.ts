@@ -59,11 +59,10 @@ for (let i of e) {
   console.log(i);
 }
 
+let g = from([1, 2, 3, 1, 2, 3, 5]).groupBy((x) => x);
 
-let g = from([1, 2, 3, 1, 2, 3, 5])
-  .groupBy(x => x);
+console.log('g', g);
 
 for (let i of g) {
   console.log(i, i.key);
-
 }
