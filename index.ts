@@ -80,11 +80,13 @@ console.log('Groups right', groupsRight);
 console.log(groupsRight.get(1));
 console.log(groupsRight.get(2));
 
-let rightGroups = from(list2).groupBy((x) => x.key);
+let rightGroups = from(list2)
+  .groupBy(x => x.key)
+  .toMap(x => x.key);
 
 let groupLeftJoin = from(list1).select((left) => {
-  let matches = rightGroups.where((rightGroup) => rightGroup.key === left.key);
-  return { left: left, right: matches.any() ? matches : from([null]) };
+  let matches = rightGroups.get(left.key);
+  return { left: left, right: matches ? from(matches) : from([null]) };
 });
 
 let leftJoin = groupLeftJoin.selectMany((x) =>
