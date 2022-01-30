@@ -66,3 +66,18 @@ console.log('g', g);
 for (let i of g) {
   console.log(i, i.key);
 }
+
+interface OuterJoinResult<TLeft, TRight>
+{
+    LeftValue: TLeft;
+    RightValue: TRight;
+}
+
+let groups = from(list1)
+  .select(left => {
+    let matches = from(list2)
+      .where(right => right.key === left.key);
+    return { left: left, right: matches.any() ?  matches : from([]) }
+  })
+
+console.log(groups.toArray());
