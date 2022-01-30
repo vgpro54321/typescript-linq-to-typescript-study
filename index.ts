@@ -67,17 +67,30 @@ for (let i of g) {
   console.log(i, i.key);
 }
 
-interface OuterJoinResult<TLeft, TRight>
-{
-    LeftValue: TLeft;
-    RightValue: TRight;
+interface OuterJoinResult<TLeft, TRight> {
+  LeftValue: TLeft;
+  RightValue: TRight;
 }
 
-let groups = from(list1)
-  .select(left => {
-    let matches = from(list2)
-      .where(right => right.key === left.key);
-    return { left: left, right: matches.any() ?  matches : from([]) }
-  })
+let groupsRight = from(list2)
+  .groupBy((x) => x.key)
+  .toMap((x) => x.key);
 
-console.log(groups.toArray());
+console.log('Groups right', groupsRight);
+console.log(groupsRight.get(1));
+console.log(groupsRight.get(2));
+
+let groupLeftJoin = from(list1).select((left) => {
+  let matches = from(list2).where((right) => right.key === left.key);
+  return { left: left, right: matches.any() ? matches : from([null]) };
+});
+
+let leftJoin = groupLeftJoin.selectMany((x) =>
+  x.right.select((right) => ({
+    left: x.left,
+    right,
+  }))
+);
+
+console.log(groupLeftJoin.toArray());
+console.log(leftJoin.toArray());
