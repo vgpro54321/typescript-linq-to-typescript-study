@@ -81,8 +81,8 @@ console.log(groupsRight.get(1));
 console.log(groupsRight.get(2));
 
 let rightGroups = from(list2)
-  .groupBy(x => x.key)
-  .toMap(x => x.key);
+  .groupBy((x) => x.key)
+  .toMap((x) => x.key);
 
 let groupLeftJoin = from(list1).select((left) => {
   let matches = rightGroups.get(left.key);
@@ -98,3 +98,9 @@ let leftJoin = groupLeftJoin.selectMany((x) =>
 
 console.log(groupLeftJoin.toArray());
 console.log(leftJoin.toArray());
+
+let sortTest = from([1, 9, 20])
+  .orderBy((x) => x, (x, y) => x - y)
+  .toArray();
+
+console.log('SortTest', sortTest);
